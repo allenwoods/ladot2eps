@@ -13,6 +13,8 @@ Tested on Ubuntu 14.04
 #### Usage:
 ```shell
 #!bin/sh
+git clone https://github.com/allenwoods/ladot2eps.git
+cd ladot2eps
 ./ladot2eps dotfile.dot
 ```
 
