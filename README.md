@@ -3,6 +3,13 @@
 
 This is a simple wrapper of [ladot](http://brighten.bigw.org/projects/ladot/)(which created by [Brighten Godfrey](http://brighten.bigw.org/)), it can generate eps from a dot file with Latex equation.
 
+#### Dependency:
+  - latex
+  - graphviz
+  - ps2eps
+
+Tested on Ubuntu 14.04
+
 #### Example:
 ![Example](./lossfunc.png)
 The .dot file saved in `./example`
