@@ -10,6 +10,12 @@ This is a simple wrapper of [ladot](http://brighten.bigw.org/projects/ladot/)(wh
 
 Tested on Ubuntu 14.04
 
+#### Usage:
+```shell
+#!bin/sh
+./ladot2eps dotfile.dot
+```
+
 #### Example:
 ![Example](./lossfunc.png)
 The .dot file saved in `./example`
