@@ -1,0 +1,73 @@
+digraph statlearning
+{
+    # rankdir=LR
+    subgraph cluster_lossfunct{
+    color=white;
+    node [fontcolor=darkgreen];
+    edge [splines=false fontcolor=darkgreen];
+    lossfunc [label="{Loss Function | $L(Y, f(X))$(5)}" shape=Mrecord fontcolor=red];
+    riskfunc [label="{<f0> Risk Function| <f1> $R_{exp}(f)=E_p[L(Y,f(X)]]=\int_{\mathcal{X} \times \mathcal{Y}} L(y, f(x))P(x,y)dxdy$(35)}" shape=record];
+    # riskfunc -> lossfunc [color=blue]
+    lossfunc -> riskfunc [label="Expectation"];
+    # {rank=same; lossfunc, riskfunc};
+}
+
+    subgraph cluster_emploss{
+    color=white;
+    node [shape=record fontcolor=steelblue];
+    edge [splines=false fontcolor=steelblue];
+    emploss [label="{<f0> Empirical Risk |<f1>  $R_{emp}(f)=\frac{1}{N}\sum_{i=1}^{N}L(y_i, f(x_i))$(20)}" ];
+    riskfunc -> emploss [label="  Finite Sample"];
+    erm [label="$\underset{f \in \mathcal{F}}{min}\frac{1}{N}\sum_{i=1}^{N}L(y_i, f(x_i))$(20)" shape=box3d];
+    emploss -> erm [label="Empirical Risk\n Minimization"]
+    overfit [label="Over-Fitting"]
+    erm -> overfit;
+    {rank=same; emploss, erm, overfit}
+}
+
+    subgraph cluster_structrisk{
+    color=white;
+    node [shape=record fontcolor=tomato];
+    edge [splines=ortho fontcolor=tomato];
+    structrisk [label="{<f0> Structural Risk |<f1>  $R_{srm}(f)=\frac{1}{N}\sum_{i=1}^{N}L(y_i, f(x_i))+\lambda J(f)$(25)}" ];
+    emploss -> structrisk [label="  Small Amount\n Sample"];
+    srm [label="$\underset{f \in \mathcal{F}}{min}\frac{1}{N}\sum_{i=1}^{N}L(y_i, f(x_i))+\lambda J(f)$(20)" shape=box3d];
+    structrisk -> srm [label="Structural Risk\n Minimization"]
+    {rank=same; structrisk, srm}
+    erm->srm
+}
+
+    subgraph cluster_generalerr{
+    color=white;
+    node [shape=record fontcolor=mediumorchid4];
+    edge [splines=false fontcolor=mediumorchid4];
+    generalerr [label="{<f0> Generalization Error|<f1> $R_{exp}(\hat{f})=E_p[L(Y,\hat{f}(X)]]=\int_{\mathcal{X} \times \mathcal{Y}} L(y, \hat{f}(x))P(x,y)dxdy$(35)}"];
+    # riskfunc -> generalerr [style=dotted]
+    structrisk -> generalerr [label="  Given Model "];
+
+    gerrbound [label="{Generalization Error Bound| $R(f_N) \leq \hat{ R }(f_N) + \varepsilon(d, N, \delta)$(5) }"]
+    # generalerr -> gerrbound;
+    gerrbound -> generalerr;
+    {rank=same;generalerr, gerrbound}
+}
+
+subgraph cluster_select{
+    label="Model Selection"
+    color = gray50
+    node [shape=diamond fontcolor=darkorchid4]
+    edge [splines=ortho]
+    regularize [label="Regularization"]
+    srm -> regularize;
+    overfit -> regularize;
+    crossvalid [label="Cross Validation"]
+
+    regularize -> gerrbound
+    regularize -> crossvalid [color=white]
+    # generalerr -> crossvalid
+    gerrbound -> crossvalid [color=white]
+    crossvalid -> gerrbound;
+    {rank=same; gerrbound, crossvalid}
+    # {rank=same; regularize, crossvalid}
+}
+
+}
