@@ -17,6 +17,7 @@ Tested on Ubuntu 14.04
 #!bin/sh
 git clone https://github.com/allenwoods/ladot2eps.git
 cd ladot2eps
+chmod +x ./ladot2eps
 ./ladot2eps dotfile.dot
 ```
 
